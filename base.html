@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+    <title>pubsub Test</title>
+</head>
+<body>
+    <div class="container" id="container">
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
+<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+
+<script id="template" type="text/html">
+ {{{template}}}
+</script>
+
+
+<script>
+
+  var app = Ractive({
+    el: '#container',
+    template: '#template',
+    });
+ 
+
+  var socket = io();
+  // Get channels for template vars
+  console.log('{{channels}}');
+
+  {{#channels}}
+    socket.on('{{.}}', function(msg) {
+              app.set('{{.}}', msg);
+              });
+  {{/channels}}
+
+</script>
+</body>
+</html>
